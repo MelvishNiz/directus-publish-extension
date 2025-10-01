@@ -80,7 +80,7 @@
 		</v-card>
 
 		<!-- Confirmation / Error Dialog -->
-		<BaseDialog
+		<Dialog
 			:show="!!dialog"
 			:title="dialog?.title"
 			:message="dialog?.message"
@@ -100,7 +100,7 @@ import { ref, computed, onMounted, onBeforeUnmount, inject } from "vue";
 import config from "../../config";
 import LogDrawer from "./logDrawer.vue";
 import { removeSite, buildSite, getLastActivityId } from "../settings";
-import BaseDialog from "./BaseDialog.vue";
+import Dialog from "./Dialog.vue";
 
 interface Site {
 	[key: string]: any;

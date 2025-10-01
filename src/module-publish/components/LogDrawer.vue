@@ -1,6 +1,6 @@
 <template>
 	<v-drawer
-		v-model="show"
+		v-model="localShow"
 		persistent
 		:title="siteName"
 		subtitle="Viewing Build Log"
@@ -41,12 +41,24 @@ const emit = defineEmits<{
 // Inject API from Directus
 const api = inject("api") as any;
 
+const localShow = ref(props.show);
 const status = ref("...");
 const timestamp = ref("...");
 const log = ref<string | undefined>();
 let interval: ReturnType<typeof setInterval> | undefined;
 
 const siteName = computed(() => props.site?.[config.keys.name] ?? "");
+
+// Sync localShow with props.show
+watch(
+	() => props.show,
+	(val) => (localShow.value = val)
+);
+
+// Emit close when localShow changes to false
+watch(localShow, (val) => {
+	if (!val) emit("close");
+});
 
 watch(
 	() => props.site,
