@@ -1,5 +1,5 @@
-const extension_name = "melvishniz-publish-node";
-const collection_name = "melvishniz_publish_node";
+const extension_name = "endpoint-publish";
+const collection_name = "publish_nodes";
 
 export const config = {
 	extension: extension_name,

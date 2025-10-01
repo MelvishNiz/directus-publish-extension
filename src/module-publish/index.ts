@@ -21,7 +21,4 @@ export default defineModule({
 			component: Settings,
 		},
 	],
-	preRegisterCheck(user) {
-		return (user.role as any)?.admin_access === true;
-	},
 });
