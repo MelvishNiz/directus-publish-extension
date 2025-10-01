@@ -3,7 +3,7 @@
 </template>
 
 <script setup lang="ts">
-import Message from "./Message.vue";
+import Message from './message.vue';
 
 defineProps<{
 	title: string;

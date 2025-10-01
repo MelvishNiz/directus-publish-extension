@@ -60,13 +60,12 @@ watch(
 			if (interval) clearInterval(interval);
 
 			interval = setInterval(async () => {
-				getSiteStatus(api, site[config.keys.id], (resp: any) => {
-					status.value = resp?.status ?? "Unknown";
-					timestamp.value = resp?.timestamp
-						? new Date(parseInt(resp.timestamp)).toLocaleString()
-						: "Unknown";
-					log.value = resp?.log ?? "Unknown";
-				});
+				const resp = await getSiteStatus(api, site[config.keys.id]);
+				status.value = resp?.status ?? "Unknown";
+				timestamp.value = resp?.timestamp
+					? new Date(parseInt(resp.timestamp)).toLocaleString()
+					: "Unknown";
+				log.value = resp?.log ?? "Unknown";
 			}, 1000);
 		} else {
 			if (interval) clearInterval(interval);

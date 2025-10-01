@@ -175,10 +175,13 @@ async function startSaveSite() {
 	if (!url.value) return displayError("URL of site is required");
 
 	saving.value = true;
-	const success = await new Promise<boolean>((resolve) =>
-		saveSite(api, name.value!, path.value!, command.value!, url.value!, env.value, (ok) =>
-			resolve(ok)
-		)
+	const success = await saveSite(
+		api,
+		name.value,
+		path.value,
+		command.value,
+		url.value,
+		env.value
 	);
 
 	saving.value = false;

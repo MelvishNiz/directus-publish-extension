@@ -13,8 +13,7 @@
 				@click="showAddSiteDrawer = true"
 				tooltip.bottom="Add Site"
 				rounded
-				icon
-			>
+				icon>
 				<v-icon name="add" />
 			</v-button>
 		</template>
@@ -40,8 +39,7 @@
 			v-if="!loading && !setupMessage && (!sites || sites.length === 0)"
 			icon="add"
 			title="Add Site"
-			subtitle="No Sites Configured"
-		>
+			subtitle="No Sites Configured">
 			Click the
 			<strong
 				>&nbsp;&nbsp;<v-icon class="btn-color" name="add_circle"></v-icon
@@ -72,17 +70,15 @@
 import { ref, inject, onMounted } from "vue";
 import type { AxiosInstance } from "axios";
 
-import Navigation from "../components/navigation.vue";
-import Error from "../components/error.vue";
-import Message from "../components/message.vue";
-import Sites from "../components/sites.vue";
-import AddSiteDrawer from "../components/addSiteDrawer.vue";
-
 import {
 	collectionExists,
 	createCollection,
 	getSites,
 } from "../settings";
+import AddSiteDrawer from "../components/AddSiteDrawer.vue";
+import Message from "../components/message.vue";
+import Sites from "../components/Sites.vue";
+import Navigation from "../components/Navigation.vue";
 
 // --- Injected API dari Directus UI ---
 const api = inject<AxiosInstance>("api");
@@ -109,14 +105,12 @@ async function displaySites() {
 	if (!api) return;
 	loading.value = true;
 
-	const result = await new Promise<Record<string, any>[] | undefined>(
-		(resolve) => {
-			getSites(api, (s) => resolve(s));
-		}
-	);
+	const result = await getSites(api);
 
-	if (!result) {
-		setupMessage.value = "Could not get Sites from Settings";
+	if (!result || result.length === 0) {
+		if (!sites.value || sites.value.length === 0) {
+			setupMessage.value = "Could not get Sites from Settings";
+		}
 		sites.value = [];
 	} else {
 		sites.value = result;

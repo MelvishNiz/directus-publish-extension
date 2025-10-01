@@ -81,14 +81,12 @@ async function displaySites() {
 	if (!api) return;
 	if (!sites.value.length) loading.value = true;
 
-	const result = await new Promise<Record<string, any>[] | undefined>(
-		(resolve) => {
-			getSites(api, (s) => resolve(s));
-		}
-	);
+	const result = await getSites(api);
 
-	if (!result) {
-		setupMessage.value = "Could not get Sites from Settings";
+	if (!result || result.length === 0) {
+		if (!sites.value.length) {
+			setupMessage.value = "Could not get Sites from Settings";
+		}
 		sites.value = [];
 	} else {
 		sites.value = result;
@@ -101,9 +99,7 @@ onMounted(async () => {
 	await displaySites();
 
 	if (api) {
-		getLastActivityId(api, (id) => {
-			lastActivityId.value = id;
-		});
+		lastActivityId.value = await getLastActivityId(api);
 	}
 });
 </script>
