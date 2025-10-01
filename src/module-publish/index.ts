@@ -1,14 +1,27 @@
 import { defineModule } from '@directus/extensions-sdk';
-import ModuleComponent from './module.vue';
+import config from "../config";
+import Build from "./routes/build.vue";
+import Settings from "./routes/settings.vue";
 
 export default defineModule({
-	id: 'custom',
-	name: 'Custom',
-	icon: 'box',
+	id: config.extension,
+	name: "Publish",
+	icon: "cloud_upload",
 	routes: [
 		{
-			path: '',
-			component: ModuleComponent,
+			path: "",
+			redirect: `/${config.extension}/build`,
+		},
+		{
+			path: "build",
+			component: Build,
+		},
+		{
+			path: "settings",
+			component: Settings,
 		},
 	],
+	preRegisterCheck(user) {
+		return (user.role as any)?.admin_access === true;
+	},
 });
